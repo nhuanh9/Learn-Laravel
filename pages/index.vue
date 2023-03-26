@@ -1,11 +1,9 @@
 <template>
   <div>
-    <nuxt-link to="">Home</nuxt-link>
-    <nuxt-link to="decks">Decks</nuxt-link>
-
-    <input type="text" v-model="deckId">
-    <button @click="showDeck">Detail</button>
-    <nuxt-child/>
+    <h1>Hello</h1>
+    <div v-for="item in decks">
+      {{item.name}}
+    </div>
   </div>
 </template>
 
@@ -13,12 +11,16 @@
 export default {
   data() {
     return {
-      decksID: '1'
+      decks: []
     }
   },
+  async asyncData({ $axios }) {
+    let { data } = await $axios.get("");
+    return { decks: data };
+  },
   methods: {
-    showDeck() {
-      this.$router.push(`/decks/${this.decksID}`)
+    async showDeck() {
+      let res = await this.$store.dispatch("getDecks");
     }
   },
   name: 'IndexPage',
