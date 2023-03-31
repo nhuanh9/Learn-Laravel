@@ -15,6 +15,9 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        if (!auth()->check()) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
         $product = Product::create($request->all());
         return response()->json($product, 201);
     }
